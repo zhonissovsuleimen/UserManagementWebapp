@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
+using UserManagementWebapp.Database;
+using UserManagementWebapp.Models;
+
 namespace UserManagementWebapp
 {
     public class Program
@@ -5,6 +10,11 @@ namespace UserManagementWebapp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<UsersDbContext>(options =>
+            {
+                options.UseNpgsql(builder.Configuration.GetConnectionString("LocalPostgresConnection"));
+            });
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
