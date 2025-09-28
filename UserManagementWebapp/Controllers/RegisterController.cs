@@ -33,15 +33,18 @@ namespace UserManagementWebapp.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(user);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    ModelState.AddModelError("Email", "Email is already in use.");
+                    return View(user);
+                }
                 return RedirectToAction("Index", "Home");
             }
             return View(user);
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.Id == id);
         }
     }
 }
