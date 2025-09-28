@@ -1,12 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using UserManagementWebapp.Database;
 
 namespace UserManagementWebapp.Controllers
 {
     public class UsersController : Controller
     {
-        public IActionResult Index()
+        private readonly UsersDbContext _context;
+        public UsersController(UsersDbContext context)
         {
-            return View();
+            _context = context;
+        }
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Users.ToListAsync());
         }
     }
 }

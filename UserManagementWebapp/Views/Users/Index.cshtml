@@ -1,7 +1,15 @@
-﻿@{
+﻿@model IEnumerable<UserManagementWebapp.Models.User>
+
+@{
     ViewData["Title"] = "Users Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Users page</h1>
+    @foreach(var user in Model)
+    {
+        <div>
+            <h2>@user.Name</h2>
+        </div>
+	}
 </div>
