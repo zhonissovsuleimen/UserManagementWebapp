@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using UserManagementWebapp.Database;
+using UserManagementWebapp.Helpers;
 using UserManagementWebapp.Models;
 
 namespace UserManagementWebapp.Controllers
@@ -28,11 +23,13 @@ namespace UserManagementWebapp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index([Bind("Name,Email,Password")] User user)
         {
-            user.Status = Data.Status.Unverified;
-            //TODO: salt + hashing
+            var salt = new Salt { User = user };
+            user.PasswordHash = PasswordHasher.GenHashedPassword(user.Password, salt.SaltValue);
             if (ModelState.IsValid)
             {
                 _context.Add(user);
+                _context.Add(salt);
+
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -44,6 +41,7 @@ namespace UserManagementWebapp.Controllers
                 }
                 return RedirectToAction("Index", "Home");
             }
+
             return View(user);
         }
     }

@@ -9,8 +9,8 @@ namespace UserManagementWebapp.Database
         {
         }
         public DbSet<User> Users { get; set; }
-    
-    
+        public DbSet<Salt> Salts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
