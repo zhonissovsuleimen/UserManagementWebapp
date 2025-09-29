@@ -6,28 +6,27 @@
 
 <div class="d-flex align-items-center justify-content-center vh-100">
     <div class="card pt-5 px-5 rounded-3">
-      <h1 class="fw-bold fs-1 text-center mt-1 mb-5">Log in</h1>
+        <h1 class="fw-bold fs-1 text-center mt-1 mb-5">Log in</h1>
 
-      <form asp-action="Index">
-          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mb-4">
+                <input asp-for="Email" class="form-control" placeholder="">
+                <label asp-for="Email">Email address</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-4">
+                <input asp-for="Password" class="form-control" placeholder="">
+                <label asp-for="Password">Password</label>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
 
-          <div class="form-floating mb-4">
-              <input type="email" class="form-control" id="floatingInput" placeholder="email@example.com">
-              <label for="floatingInput">Email address</label>
-              <span asp-validation-for="Email" class="text-danger"></span>
-          </div>
-          <div class="form-floating mb-4">
-              <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-              <label for="floatingPassword">Password</label>
-              <span asp-validation-for="Password" class="text-danger"></span>
-          </div>
-
-              <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-      </form>
-      <p class="p-5 mb-0">
-          Don't have an account? <a class="text-white-50 fw-bold" asp-controller="Register" asp-action="Index">Sign Up</a>
-      </p>
-  </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sing up</button>
+        </form>
+        <p class="p-5 mb-0">
+            Don't have an account? <a class="text-white-50 fw-bold" asp-controller="Register" asp-action="Index">Sign Up</a>
+        </p>
+    </div>
 </div>
 
 @section Scripts {

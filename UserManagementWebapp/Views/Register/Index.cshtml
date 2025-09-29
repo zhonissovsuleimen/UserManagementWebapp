@@ -10,23 +10,23 @@
 
         <form asp-action="Index">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-              <div class="form-floating mb-4">
-                  <input type="name" class="form-control" id="floatingInput" placeholder="Name">
-                  <label for="floatingPassword">Name</label>
-                  <span asp-validation-for="Name" class="text-danger"></span>
-              </div>
-              <div class="form-floating mb-4">
-                  <input type="email" class="form-control" id="floatingInput" placeholder="email@example.com">
-                  <label for="floatingInput">Email address</label>
-                  <span asp-validation-for="Email" class="text-danger"></span>
-              </div>
-              <div class="form-floating mb-4">
-                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                  <label for="floatingPassword">Password</label>
-                  <span asp-validation-for="Password" class="text-danger"></span>
-              </div>
+            <div class="form-floating mb-4">
+                <input asp-for="Name" class="form-control" placeholder="">
+                <label asp-for="Name">Name</label>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-4">
+                <input asp-for="Email" class="form-control" placeholder="">
+                <label asp-for="Email">Email address</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-4">
+                <input asp-for="Password" class="form-control" placeholder="">
+                <label asp-for="Password">Password</label>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
 
-              <button class="w-100 btn btn-lg btn-primary" type="submit">Sing up</button>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sing up</button>
         </form>
         <p class="p-5 mb-0">
             Already have an account? <a class="text-white-50 fw-bold" asp-controller="Login" asp-action="Index">Log in</a>
