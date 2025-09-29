@@ -11,10 +11,7 @@ namespace UserManagementWebapp
             var builder = WebApplication.CreateBuilder(args);
 
             string dbConnection = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? "";
-            builder.Services.AddDbContext<UsersDbContext>(options =>
-            {
-                options.UseNpgsql(dbConnection);
-            });
+            builder.Services.AddDbContext<UsersDbContext>(options => options.UseNpgsql(dbConnection));
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -29,6 +26,16 @@ namespace UserManagementWebapp
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            // Applying migrations
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<UsersDbContext>();
+                context.Database.Migrate();
+            }
+
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
