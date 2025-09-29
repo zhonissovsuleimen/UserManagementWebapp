@@ -1,7 +1,6 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
 using UserManagementWebapp.Database;
-using UserManagementWebapp.Models;
 
 namespace UserManagementWebapp
 {
@@ -14,6 +13,14 @@ namespace UserManagementWebapp
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("LocalPostgresConnection"));
             });
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Login";
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                    options.SlidingExpiration = true;
+                });
 
 
             // Add services to the container.
