@@ -38,7 +38,7 @@ namespace UserManagementWebapp.Controllers
                     var salt = await _context.Salts.FirstOrDefaultAsync(s => s.User.Id == user.Id);
                     if (salt != null)
                     {
-                        var hashedPassword = PasswordHasher.GenHashedPassword(loginModel.Password, salt.SaltValue);
+                        var hashedPassword = Hasher.GetHashedValue(loginModel.Password, salt.SaltValue);
                         if (user.PasswordHash.SequenceEqual(hashedPassword))
                         {
                             var claims = new List<Claim>

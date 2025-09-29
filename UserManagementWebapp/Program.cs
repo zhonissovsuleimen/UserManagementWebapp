@@ -9,9 +9,11 @@ namespace UserManagementWebapp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            string dbConnection = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? "";
             builder.Services.AddDbContext<UsersDbContext>(options =>
             {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("LocalPostgresConnection"));
+                options.UseNpgsql(dbConnection);
             });
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

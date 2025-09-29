@@ -10,6 +10,8 @@ namespace UserManagementWebapp.Database
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Salt> Salts { get; set; }
+        public DbSet<EmailVerification> EmailVerifications { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
