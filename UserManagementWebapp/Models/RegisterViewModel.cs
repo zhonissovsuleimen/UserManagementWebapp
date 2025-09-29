@@ -4,15 +4,17 @@ using UserManagementWebapp.Data;
 
 namespace UserManagementWebapp.Models
 {
-    public class User
+    public class RegisterViewModel
     {
-        public int Id { get; set; }
-        public Guid Guid { get; set; } = Guid.NewGuid();
+        [Required]
         public required string Name { get; set; }
+
+        [Required]
         [DataType(DataType.EmailAddress)]
         public required string Email { get; set; }
-        public byte[]? PasswordHash { get; set; }
-        public Status Status { get; set; } = Status.Unverified;
-        public DateTime? LastLogin { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public required string Password { get; set; }
     }
 }

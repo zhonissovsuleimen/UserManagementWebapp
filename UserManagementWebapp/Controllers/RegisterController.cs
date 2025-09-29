@@ -21,12 +21,19 @@ namespace UserManagementWebapp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index([Bind("Name,Email,Password")] User user)
+        public async Task<IActionResult> Index(RegisterViewModel regModel)
         {
-            var salt = new Salt { User = user };
-            user.PasswordHash = PasswordHasher.GenHashedPassword(user.Password, salt.SaltValue);
             if (ModelState.IsValid)
             {
+                User user = new User
+                {
+                    Name = regModel.Name,
+                    Email = regModel.Email,
+                };
+
+                Salt salt = new Salt { User = user };
+                user.PasswordHash = PasswordHasher.GenHashedPassword(regModel.Password, salt.SaltValue);
+
                 _context.Add(user);
                 _context.Add(salt);
 
@@ -42,7 +49,7 @@ namespace UserManagementWebapp.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(user);
+            return View();
         }
     }
 }
