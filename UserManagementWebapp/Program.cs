@@ -28,12 +28,12 @@ namespace UserManagementWebapp
             var app = builder.Build();
 
             // Applying migrations
-            using (var scope = app.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<UsersDbContext>();
-                context.Database.Migrate();
-            }
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var services = scope.ServiceProvider;
+            //    var context = services.GetRequiredService<UsersDbContext>();
+            //    context.Database.Migrate();
+            //}
 
 
 

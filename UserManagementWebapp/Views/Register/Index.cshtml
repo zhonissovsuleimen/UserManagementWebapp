@@ -4,38 +4,34 @@
     ViewData["Title"] = "Sign up";
 }
 
-<h1>Sign up</h1>
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="card pt-5 px-5 rounded-3">
+        <h1 class="fw-bold fs-1 text-center mt-1 mb-5">Sign up</h1>
 
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="Index">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Sign up" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+              <div class="form-floating mb-4">
+                  <input type="name" class="form-control" id="floatingInput" placeholder="Name">
+                  <label for="floatingPassword">Name</label>
+                  <span asp-validation-for="Name" class="text-danger"></span>
+              </div>
+              <div class="form-floating mb-4">
+                  <input type="email" class="form-control" id="floatingInput" placeholder="email@example.com">
+                  <label for="floatingInput">Email address</label>
+                  <span asp-validation-for="Email" class="text-danger"></span>
+              </div>
+              <div class="form-floating mb-4">
+                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                  <label for="floatingPassword">Password</label>
+                  <span asp-validation-for="Password" class="text-danger"></span>
+              </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+              <button class="w-100 btn btn-lg btn-primary" type="submit">Sing up</button>
+        </form>
+        <p class="p-5 mb-0">
+            Already have an account? <a class="text-white-50 fw-bold" asp-controller="Login" asp-action="Index">Log in</a>
+        </p>
+    </div>
 </div>
 
 @section Scripts {

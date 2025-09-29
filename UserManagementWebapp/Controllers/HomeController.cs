@@ -15,7 +15,14 @@ namespace UserManagementWebapp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Users");
+            } else
+            {
+                return RedirectToAction("Index", "Login");
+
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
