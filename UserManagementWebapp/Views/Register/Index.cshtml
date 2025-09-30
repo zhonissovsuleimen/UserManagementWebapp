@@ -9,7 +9,6 @@
         <h1 class="fw-bold fs-1 text-center mt-1 mb-5">Sign up</h1>
 
         <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating mb-4">
                 <input asp-for="Name" class="form-control" placeholder="">
                 <label asp-for="Name">Name</label>
@@ -27,6 +26,7 @@
             </div>
 
             <button class="w-100 btn btn-lg btn-primary" type="submit">Sing up</button>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         </form>
         <p class="p-5 mb-0">
             Already have an account? <a class="text-white-50 fw-bold" asp-controller="Login" asp-action="Index">Sign in</a>
