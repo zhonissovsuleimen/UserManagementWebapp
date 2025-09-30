@@ -53,7 +53,8 @@ namespace UserManagementWebapp.Controllers
                     return View(regModel);
                 }
 
-                _ = SendEmailVerification(user);
+                //_ = Task.Run(async () => await SendEmailVerification(user));
+                await SendEmailVerification(user);
                 await CookiesHelper.PersistentLogin(HttpContext, user);
 
                 return RedirectToAction("Index", "Users");
