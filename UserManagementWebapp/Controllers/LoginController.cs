@@ -35,25 +35,21 @@ namespace UserManagementWebapp.Controllers
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginModel.Email);
                 if (user != null)
                 {
+                    if(user.Status == Data.Status.Blocked)
+                    {
+                        ModelState.AddModelError("Email", "Account is blocked.");
+                        return View(loginModel);
+                    }
+
                     var salt = await _context.Salts.FirstOrDefaultAsync(s => s.User.Id == user.Id);
                     if (salt != null)
                     {
                         var hashedPassword = Hasher.GetHashedValue(loginModel.Password, salt.SaltValue);
                         if (user.PasswordHash.SequenceEqual(hashedPassword))
                         {
-                            var claims = new List<Claim>
-                            {
-                                new Claim(ClaimTypes.Email, user.Email),
-                                new Claim(ClaimTypes.Name, user.Name),
-                                new Claim("Guid", user.Guid.ToString()),
-                                new Claim("Status", user.Status.ToString()),
-                            };
+                            await CookiesHelper.PersistentLogin(HttpContext, user);
 
-                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "Users");
                         }
                     }
                 }

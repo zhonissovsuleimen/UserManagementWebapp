@@ -50,12 +50,13 @@ namespace UserManagementWebapp.Controllers
                 catch
                 {
                     ModelState.AddModelError("Email", "Email is already in use.");
-                    return View(user);
+                    return View(regModel);
                 }
 
-                await SendEmailVerification(user);
+                _ = SendEmailVerification(user);
+                await CookiesHelper.PersistentLogin(HttpContext, user);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Users", "Index");
             }
 
             return View();

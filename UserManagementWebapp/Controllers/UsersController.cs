@@ -13,7 +13,14 @@ namespace UserManagementWebapp.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return View(await _context.Users.ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
     }
 }

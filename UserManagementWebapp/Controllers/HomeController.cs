@@ -21,7 +21,6 @@ namespace UserManagementWebapp.Controllers
             } else
             {
                 return RedirectToAction("Index", "Login");
-
             }
         }
 

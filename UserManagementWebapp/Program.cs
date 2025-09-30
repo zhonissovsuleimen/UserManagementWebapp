@@ -17,8 +17,10 @@ namespace UserManagementWebapp
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Login";
+                    options.AccessDeniedPath = "/Login";
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                     options.SlidingExpiration = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
 
 
@@ -27,13 +29,13 @@ namespace UserManagementWebapp
 
             var app = builder.Build();
 
-            // Applying migrations
-            //using (var scope = app.Services.CreateScope())
-            //{
-            //    var services = scope.ServiceProvider;
-            //    var context = services.GetRequiredService<UsersDbContext>();
-            //    context.Database.Migrate();
-            //}
+            //Applying migrations
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<UsersDbContext>();
+                context.Database.Migrate();
+            }
 
 
 
@@ -50,11 +52,12 @@ namespace UserManagementWebapp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/");
 
             app.Run();
         }
