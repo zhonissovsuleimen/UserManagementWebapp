@@ -56,7 +56,7 @@ namespace UserManagementWebapp.Controllers
                 _ = SendEmailVerification(user);
                 await CookiesHelper.PersistentLogin(HttpContext, user);
 
-                return RedirectToAction("Users", "Index");
+                return RedirectToAction("Index", "Users");
             }
 
             return View();

@@ -15,7 +15,7 @@
             </ul>
 
             <div class="text-end">
-                <a class="btn btn-outline-light me-2" asp-controller="Login" asp-action="Logout">Login</a>
+                <a class="btn btn-outline-light me-2" asp-controller="Login" asp-action="Logout">Log out</a>
             </div>
         </div>
     </div>
@@ -31,3 +31,10 @@
         </div>
 	}
 </div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
