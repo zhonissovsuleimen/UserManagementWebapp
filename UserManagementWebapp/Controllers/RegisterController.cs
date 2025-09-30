@@ -87,7 +87,7 @@ namespace UserManagementWebapp.Controllers
                     byte[] tokenHashed = Hasher.GetHashedValue(token, salt.SaltValue);
                     if (ev.TokenHash.SequenceEqual(tokenHashed))
                     {
-                        user.Status = Status.Active;
+                        user.isVerified = true;
                         ev.Used = true;
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Index", "Home");

@@ -12,7 +12,7 @@ using UserManagementWebapp.Database;
 namespace UserManagementWebapp.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    [Migration("20250930213450_InitialCreate")]
+    [Migration("20250930222228_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -103,8 +103,8 @@ namespace UserManagementWebapp.Migrations
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("bytea");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<bool>("isBlocked")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("isVerified")
                         .HasColumnType("boolean");

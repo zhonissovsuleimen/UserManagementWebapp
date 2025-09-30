@@ -100,8 +100,8 @@ namespace UserManagementWebapp.Migrations
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("bytea");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<bool>("isBlocked")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("isVerified")
                         .HasColumnType("boolean");

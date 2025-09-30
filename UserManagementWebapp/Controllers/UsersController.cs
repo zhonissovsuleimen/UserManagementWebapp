@@ -35,7 +35,7 @@ namespace UserManagementWebapp.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid.ToString() == guid && u.Status == Status.Active);
             if (user != null)
             {
-                user.Status = Data.Status.Blocked;
+                user.isBlocked = true;
                 await _context.SaveChangesAsync();
             }
             return;
@@ -48,7 +48,7 @@ namespace UserManagementWebapp.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid.ToString() == guid && u.Status == Status.Active);
             if (user != null)
             {
-                user.Status = user.isVerified ? Data.Status.Active : Data.Status.Unverified;
+                user.isBlocked = false;
                 await _context.SaveChangesAsync();
             }
             return;

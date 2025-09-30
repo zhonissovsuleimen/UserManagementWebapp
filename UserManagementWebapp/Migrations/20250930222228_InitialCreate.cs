@@ -22,8 +22,8 @@ namespace UserManagementWebapp.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "bytea", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
                     LastLogin = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    isBlocked = table.Column<bool>(type: "boolean", nullable: false),
                     isVerified = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
