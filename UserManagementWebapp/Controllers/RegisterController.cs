@@ -35,6 +35,7 @@ namespace UserManagementWebapp.Controllers
                 {
                     Name = regModel.Name,
                     Email = regModel.Email,
+                    LastLogin = DateTime.UtcNow
                 };
 
                 Salt salt = new Salt { User = user, Purpose = SaltPurpose.Password };

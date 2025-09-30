@@ -48,6 +48,8 @@ namespace UserManagementWebapp.Controllers
                         if (user.PasswordHash.SequenceEqual(hashedPassword))
                         {
                             await CookiesHelper.PersistentLogin(HttpContext, user);
+                            user.LastLogin = DateTime.UtcNow;
+                            await _context.SaveChangesAsync();
 
                             return RedirectToAction("Index", "Users");
                         }
