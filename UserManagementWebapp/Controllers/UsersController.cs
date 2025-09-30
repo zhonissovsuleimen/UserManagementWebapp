@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UserManagementWebapp.Data;
 using UserManagementWebapp.Database;
 
 namespace UserManagementWebapp.Controllers
@@ -15,12 +16,42 @@ namespace UserManagementWebapp.Controllers
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return View(await _context.Users.ToListAsync());
+                var users = await _context.Users
+                    .OrderBy(u => u.LastLogin == null)
+                    .ThenByDescending(u => u.LastLogin)
+                    .ToListAsync(); 
+                return View(users);
             }
             else
             {
                 return RedirectToAction("Index", "Login");
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task BlockUser(string guid)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid.ToString() == guid && u.Status == Status.Active);
+            if (user != null)
+            {
+                user.Status = Data.Status.Blocked;
+                await _context.SaveChangesAsync();
+            }
+            return;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task UnblockUser(string guid)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid.ToString() == guid && u.Status == Status.Active);
+            if (user != null)
+            {
+                user.Status = user.isVerified ? Data.Status.Active : Data.Status.Unverified;
+                await _context.SaveChangesAsync();
+            }
+            return;
         }
     }
 }

@@ -12,8 +12,8 @@ using UserManagementWebapp.Database;
 namespace UserManagementWebapp.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    [Migration("20250929155306_SaltPurpose_EmailVerification")]
-    partial class SaltPurpose_EmailVerification
+    [Migration("20250930213450_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,6 +105,9 @@ namespace UserManagementWebapp.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("isVerified")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 

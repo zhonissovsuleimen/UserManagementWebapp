@@ -13,5 +13,6 @@ namespace UserManagementWebapp.Models
         public byte[]? PasswordHash { get; set; }
         public Status Status { get; set; } = Status.Unverified;
         public DateTime? LastLogin { get; set; }
+        public bool isVerified { get; set; } = false;
     }
 }
