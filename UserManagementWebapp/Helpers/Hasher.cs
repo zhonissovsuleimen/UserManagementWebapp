@@ -6,7 +6,7 @@ namespace UserManagementWebapp.Helpers
     {
         private static readonly int SaltSize = 256 / 8;
         private static readonly int HashSize = 256 / 8;
-        private static readonly int Iterations = 1_000_000;
+        private static readonly int Iterations = 1_000;
         private static readonly HashAlgorithmName HashAlgorithm = HashAlgorithmName.SHA256;
         public static byte[] GetHashedValue(string password, byte[] salt)
         {
