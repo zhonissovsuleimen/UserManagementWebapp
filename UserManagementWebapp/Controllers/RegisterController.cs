@@ -55,7 +55,7 @@ namespace UserManagementWebapp.Controllers
                 }
 
                 //_ = Task.Run(async () => await SendEmailVerification(user));
-                await SendEmailVerification(user);
+                await SendVerificationEmail(user);
                 await CookiesHelper.PersistentLogin(HttpContext, user);
 
                 return RedirectToAction("Index", "Users");
@@ -105,7 +105,7 @@ namespace UserManagementWebapp.Controllers
             return notVerifiedResult;
         }
 
-        public async Task SendEmailVerification(User user)
+        public async Task SendVerificationEmail(User user)
         {
             string token = EmailVerification.GenVerificationToken();
 

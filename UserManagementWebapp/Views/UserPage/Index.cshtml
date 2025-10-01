@@ -1,37 +1,98 @@
-﻿@model UserManagementWebapp.Models.User
+﻿@using UserManagementWebapp.Data
+@model UserManagementWebapp.Models.User
 
 @{
-    ViewData["Title"] = "Details";
-}
-@*Ugly as hell for now, no send verification button*@
-<div class="container mt-4">
-    <div class="row">
-        <main role="main" class="col-md-9 ml-auto col-lg-10 px-4">
-            <div style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;" class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <dl class="row">
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Name)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Name)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Email)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Email)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Status)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Status)
-                    </dd>
-                </dl>
-            </div>
+    ViewData["Title"] = "Account";
 
-            <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="2056" height="867" style="display: block; height: 665px; width: 1577px;"></canvas>
-        </main>
+    string statusClass = Model.Status switch
+    {
+        Status.Active => "bg-success",
+        Status.Blocked => "bg-secondary",
+        Status.Unverified => "bg-warning text-dark",
+        _ => "bg-light text-dark"
+    };
+}
+
+<div class="container mt-4">
+    @if(!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-info">@ViewBag.Message</div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white d-flex justify-content-between align-items-start flex-wrap">
+                    <div class="me-3">
+                        <span class="fs-2 mb-1">Account Details</span>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    @if (!Model.isVerified)
+                    {
+                        <div class="alert alert-warning d-flex justify-content-between align-items-center flex-wrap">
+                            <div>
+                                <strong>Email not verified.</strong>
+                                <div class="small mb-2 mb-sm-0">You need to verify your email to access all features.</div>
+                            </div>
+                            <form method="post" asp-action="ResendVerificationEmail" class="ms-sm-3">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-warning d-inline-flex align-items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-arrow-up" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M2 2a2 2 0 0 0-2 2v6.5A1.5 1.5 0 0 0 1.5 14h6a.5.5 0 0 0 0-1h-6A.5.5 0 0 1 1 12.5V5.383l5.241 3.49a.5.5 0 0 0 .518 0L12 5.383V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zM1 4.217V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v.217L6.259 7.5z" />
+                                        <path fill-rule="evenodd" d="M15.854 10.146a.5.5 0 0 1 0 .708l-2.5 2.5a.498.498 0 0 1-.708 0l-2.5-2.5a.5.5 0 0 1 .708-.708L12.5 11.293V6.5a.5.5 0 0 1 1 0v4.793l1.646-1.647a.5.5 0 0 1 .708 0" />
+                                    </svg>
+                                    Resend
+                                </button>
+                            </form>
+                        </div>
+                    }
+
+                    <div class="mb-4">
+                        <h6 class="text-uppercase text-muted small mb-3">Details</h6>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <div class="border rounded p-3 h-100">
+                                    <div class="text-muted small mb-1">Name</div>
+                                    <div class="fw-semibold">@Model.Name</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="border rounded p-3 h-100">
+                                    <div class="text-muted small mb-1">Email</div>
+                                    <div>@Model.Email</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="border rounded p-3 h-100">
+                                    <div class="text-muted small mb-1">Status</div>
+                                    <div><span class="badge @statusClass">@Model.Status</span></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="border rounded p-3 h-100">
+                                    <div class="text-muted small mb-1">Last Login</div>
+                                    <div>
+                                        @if(Model.LastLogin == null)
+                                        {
+                                            <span>N/A</span>
+                                        }
+                                        else
+                                        {
+                                            @Model.LastLogin.Value.ToString("MMM dd, yyyy HH:mm")
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
