@@ -21,7 +21,7 @@ namespace UserManagementWebapp.Controllers
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Edit", "UserPage");
             }
             return View();
         }

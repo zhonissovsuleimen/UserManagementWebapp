@@ -5,98 +5,71 @@
     ViewData["Title"] = "Users Page";
 }
 
-
-<header class="p-3 text-bg-dark">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
-                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
-            </svg>
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a class="nav-link px-2 text-white" asp-controller="Users" asp-action="Index">User Panel</a></li>
-            </ul>
-
-            <div class="text-end">
-                <a class="btn btn-outline-light me-2" asp-controller="Login" asp-action="Logout">Log out</a>
-            </div>
-        </div>
-    </div>
-</header>
 <div class="container mt-4">
-    <div class="d-flex mb-2">
-        <button class="btn btn-primary d-inline-flex align-items-center gap-1 me-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4M4.5 7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7zM8 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3" />
-            </svg>
-            <span>Block</span>
-        </button>
-        <button class="btn btn-primary d-inline-flex align-items-center gap-1 me-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4M2.5 7A1.5 1.5 0 0 0 1 8.5v5A1.5 1.5 0 0 0 2.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 9.5 7z" />
-            </svg>
-        </button>
-        <button class="btn btn-danger d-inline-flex align-items-center gap-1 ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
-            </svg>
-        </button>
-    </div>
+	<form method="post">
+        <div class="d-flex mb-2">
+            <button type="submit" asp-controller="Users" asp-action="BlockSelected" class="btn btn-primary d-inline-flex align-items-center gap-1 me-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4M4.5 7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7zM8 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3" />
+                </svg>
+                <span>Block</span>
+            </button>
+            <button type="submit" asp-controller="Users" asp-action="UnblockSelected" class="btn btn-primary d-inline-flex align-items-center gap-1 me-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4M2.5 7A1.5 1.5 0 0 0 1 8.5v5A1.5 1.5 0 0 0 2.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 9.5 7z" />
+                </svg>
+            </button>
+            <button type="submit" asp-controller="Users" asp-action="DeleteSelected" class="btn btn-danger d-inline-flex align-items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                </svg>
+            </button>
+        </div>
 
-    <table class="table table-hover align-middle">
-        <thead class="table-light">
-            <tr>
-                <th scope="col">
-                    <input type="checkbox" id="selectAll" />
-                </th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Status</th>
-                <th scope="col">Last Login</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-            {
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
                 <tr>
-                    <td>
-                        <input type="checkbox" name="selectedUsers" value="@user.Guid" />
-                    </td>
-                    <td>
-                        <strong>@user.Name</strong><br />
-                        @* <small class="text-muted">add company later?</small> *@
-                    </td>
-                    <td>@user.Email</td>
-                    <td>
-                        @switch (user.Status)
-                        {
-                            case Status.Active:
-                                <span class="badge bg-success">Active</span>
-                                break;
-                            case Status.Blocked:
-                                <span class="badge bg-danger">Blocked</span>
-                                break;
-                            case Status.Unverified:
-                                <span class="badge bg-secondary">Unverified</span>
-                                break;
-                            default:
-                                <span class="badge bg-light text-dark">@user.Status</span>
-                                break;
-                        }
-                    </td>
-                    <td>
-                        @if(user.LastLogin == null)
-                        {
-                            <span>N/A</span>
-                        }
-                        else
-                        {
-                            @user.LastLogin.Value.ToString("MMM dd, yyyy HH:mm")
-                        }
-                    </td>
+                    <th scope="col">
+                        <input type="checkbox" id="selectAll" />
+                    </th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Last Login</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" id="selectedGuids" name="selectedGuids" value="@user.Guid" />
+                        </td>
+                        <td>
+                            <strong>@user.Name</strong><br />
+                            @* <small class="text-muted">add company later?</small> *@
+                        </td>
+                        <td>
+                            @user.Email  
+                        </td>
+                        <td>
+                            @user.Status
+                        </td>
+                        <td>
+                            @if(user.LastLogin == null)
+                            {
+                                <span>N/A</span>
+                            }
+                            else
+                            {
+                                @user.LastLogin.Value.ToString("MMM dd, yyyy HH:mm")
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
 </div>
 
 @section Scripts {
@@ -105,7 +78,7 @@
     }
     <script>
         document.getElementById("selectAll").addEventListener("change", function () {
-            var checkboxes = document.querySelectorAll("input[name='selectedUsers']");
+            var checkboxes = document.querySelectorAll("input[name='selectedGuids']");
             for (var checkbox of checkboxes) {
                 checkbox.checked = this.checked;
             }

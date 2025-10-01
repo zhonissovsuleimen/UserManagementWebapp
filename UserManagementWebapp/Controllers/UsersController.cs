@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UserManagementWebapp.Data;
 using UserManagementWebapp.Database;
+using UserManagementWebapp.Helpers;
 
 namespace UserManagementWebapp.Controllers
 {
@@ -14,7 +14,7 @@ namespace UserManagementWebapp.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            if (User.Identity != null && User.Identity.IsAuthenticated)
+            if (IsAllowed())
             {
                 var users = await _context.Users
                     .OrderBy(u => u.LastLogin == null)
@@ -24,34 +24,93 @@ namespace UserManagementWebapp.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "UserPage");
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task BlockUser(string guid)
+        public async Task<IActionResult> BlockSelected(List<Guid> selectedGuids)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid.ToString() == guid && u.Status == Status.Active);
-            if (user != null)
+            bool blockedYourself = false;
+            if (IsAllowed())
             {
-                user.isBlocked = true;
+                foreach (Guid guid in selectedGuids)
+                {
+                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid == guid);
+
+                    if (user != null)
+                    {
+                        blockedYourself |= CookiesHelper.IsYourself(User, user);
+                        user.isBlocked = true;
+                    }
+                }
                 await _context.SaveChangesAsync();
             }
-            return;
+
+            if (blockedYourself)
+            {
+                return RedirectToAction("Logout", "Login");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task UnblockUser(string guid)
+        public async Task<IActionResult> UnblockSelected(List<Guid> selectedGuids)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid.ToString() == guid && u.Status == Status.Active);
-            if (user != null)
+            if (IsAllowed())
             {
-                user.isBlocked = false;
+                foreach (Guid guid in selectedGuids)
+                {
+                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid == guid);
+                    if (user != null)
+                    {
+                        user.isBlocked = false;
+                    }
+                }
                 await _context.SaveChangesAsync();
             }
-            return;
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteSelected(List<Guid> selectedGuids)
+        {
+            bool deletedYourself = false;
+            if (IsAllowed())
+            {
+                foreach (Guid guid in selectedGuids)
+                {
+                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid == guid);
+
+                    if (user != null)
+                    {
+                        deletedYourself |= CookiesHelper.IsYourself(User, user);
+                        _context.Users.Remove(user);
+                    }
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            if (deletedYourself)
+            {
+                return RedirectToAction("Logout", "Login");
+            } else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        public bool IsAllowed()
+        {
+            string guid_claim = User.Claims.FirstOrDefault(c => c.Type == "Guid")?.Value ?? "";
+            return User.Identity != null && User.Identity.IsAuthenticated && _context.Users.Any(u => u.Guid.ToString() == guid_claim && u.isVerified && !u.isBlocked);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace UserManagementWebapp.Controllers
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Edit", "UserPage");
             }
             return View();
         }
@@ -90,6 +90,13 @@ namespace UserManagementWebapp.Controllers
                         user.isVerified = true;
                         ev.Used = true;
                         await _context.SaveChangesAsync();
+
+                        if (CookiesHelper.IsYourself(User, user))
+                        {
+                            await CookiesHelper.PersistentLogin(HttpContext, user);
+                        }
+
+                        await CookiesHelper.PersistentLogin(HttpContext, user);
                         return RedirectToAction("Index", "Home");
                     }
                 }
