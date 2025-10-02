@@ -1,9 +1,7 @@
 ﻿@{
     var controllerName = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
-    bool verified = User.Claims.Any(c => c.Type == "isVerified" && c.Value == "True");
     string name = User.Identity?.Name ?? "User";
     bool authenticated = User.Identity?.IsAuthenticated ?? false;
-    string verificationRequiredStr = "Email verification required";
 }
 
 <!DOCTYPE html>
@@ -37,12 +35,9 @@
                 <div class="collapse navbar-collapse" id="mainNavbar">
                     <ul class="navbar-nav me-auto mb-2 mb-xl-0">
                         <li class="nav-item">
-                            <div data-toggle="tooltip"
-                                 title="@(verified ? null : verificationRequiredStr)">
-                                <a class="nav-link @(verified ? null : "disabled")" asp-controller="Users" asp-action="Index">
-                                    Users
-                                </a>
-                            </div>
+                            <a class="nav-link asp-controller="Users" asp-action="Index">
+                                Users
+                            </a>
                         </li>
                     </ul>
 

@@ -140,7 +140,7 @@ namespace UserManagementWebapp.Controllers
         public bool IsAllowed()
         {
             string guid_claim = User.Claims.FirstOrDefault(c => c.Type == "Guid")?.Value ?? "";
-            return User.Identity != null && User.Identity.IsAuthenticated && _context.Users.Any(u => u.Guid.ToString() == guid_claim && u.isVerified && !u.isBlocked);
+            return User.Identity != null && User.Identity.IsAuthenticated && _context.Users.Any(u => u.Guid.ToString() == guid_claim && !u.isBlocked);
         }
     }
 }
