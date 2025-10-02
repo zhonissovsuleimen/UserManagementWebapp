@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using UserManagementWebapp.Database;
+using UserManagementWebapp.Services;
 
 namespace UserManagementWebapp
 {
@@ -23,6 +24,7 @@ namespace UserManagementWebapp
                     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
 
+            builder.Services.AddHostedService<EmailVerificationCleanupService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -36,8 +38,6 @@ namespace UserManagementWebapp
                 var context = services.GetRequiredService<UsersDbContext>();
                 context.Database.Migrate();
             }
-
-
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

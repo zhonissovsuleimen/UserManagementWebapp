@@ -12,7 +12,7 @@ using UserManagementWebapp.Database;
 namespace UserManagementWebapp.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    [Migration("20250930222228_InitialCreate")]
+    [Migration("20251002001455_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -61,6 +61,9 @@ namespace UserManagementWebapp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("EmailVerificationId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Purpose")
                         .HasColumnType("integer");
 
@@ -72,6 +75,8 @@ namespace UserManagementWebapp.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmailVerificationId");
 
                     b.HasIndex("UserId");
 
@@ -133,11 +138,17 @@ namespace UserManagementWebapp.Migrations
 
             modelBuilder.Entity("UserManagementWebapp.Models.Salt", b =>
                 {
+                    b.HasOne("UserManagementWebapp.Models.EmailVerification", "EmailVerification")
+                        .WithMany()
+                        .HasForeignKey("EmailVerificationId");
+
                     b.HasOne("UserManagementWebapp.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("EmailVerification");
 
                     b.Navigation("User");
                 });

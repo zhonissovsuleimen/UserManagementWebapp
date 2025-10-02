@@ -11,5 +11,6 @@ namespace UserManagementWebapp.Models
         [ForeignKey("UserId")]
         public required User User { get; set; }
         public required SaltPurpose Purpose { get; set; }
+        public EmailVerification? EmailVerification { get; set; }
     }
 }

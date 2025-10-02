@@ -61,11 +61,17 @@ namespace UserManagementWebapp.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SaltValue = table.Column<byte[]>(type: "bytea", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
-                    Purpose = table.Column<int>(type: "integer", nullable: false)
+                    Purpose = table.Column<int>(type: "integer", nullable: false),
+                    EmailVerificationId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Salts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Salts_EmailVerifications_EmailVerificationId",
+                        column: x => x.EmailVerificationId,
+                        principalTable: "EmailVerifications",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Salts_Users_UserId",
                         column: x => x.UserId,
@@ -78,6 +84,11 @@ namespace UserManagementWebapp.Migrations
                 name: "IX_EmailVerifications_UserId",
                 table: "EmailVerifications",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Salts_EmailVerificationId",
+                table: "Salts",
+                column: "EmailVerificationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Salts_UserId",
@@ -101,10 +112,10 @@ namespace UserManagementWebapp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmailVerifications");
+                name: "Salts");
 
             migrationBuilder.DropTable(
-                name: "Salts");
+                name: "EmailVerifications");
 
             migrationBuilder.DropTable(
                 name: "Users");
