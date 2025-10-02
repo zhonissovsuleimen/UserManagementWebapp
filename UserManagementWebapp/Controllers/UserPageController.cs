@@ -28,7 +28,7 @@ namespace UserManagementWebapp.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid.ToString() == guidStr);
             if (user == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Login");
             }
 
             return View(user);

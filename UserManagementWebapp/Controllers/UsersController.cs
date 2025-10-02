@@ -107,6 +107,36 @@ namespace UserManagementWebapp.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteSelectedUnverified(List<Guid> selectedGuids)
+        {
+            bool deletedYourself = false;
+            if (IsAllowed())
+            {
+                foreach (Guid guid in selectedGuids)
+                {
+                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid == guid && !u.isVerified);
+
+                    if (user != null)
+                    {
+                        deletedYourself |= CookiesHelper.IsYourself(User, user);
+                        _context.Users.Remove(user);
+                    }
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            if (deletedYourself)
+            {
+                return RedirectToAction("Logout", "Login");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
         public bool IsAllowed()
         {
             string guid_claim = User.Claims.FirstOrDefault(c => c.Type == "Guid")?.Value ?? "";
